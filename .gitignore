@@ -1,0 +1,23 @@
+# Per-task episodic state (owned by the task-state skill) — never committed
+.dev/tasks/
+
+# Agent memory tiers (if materialized locally)
+/memories/
+
+# Environment files — commit only the .example variants
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+.venv/
+__pycache__/
+
+# Build & test artifacts
+dist/
+build/
+coverage/
+test-results/
+playwright-report/
+*.log
