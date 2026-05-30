@@ -57,6 +57,7 @@ Review `.dev/tasks/<slug>/plan.md`. No product code should have been written yet
 
 #### Documentation and scope
 - [ ] `ARCHITECTURE.md`, feature/package docs, API docs, and config examples are updated when affected.
+- [ ] New code has a clear module/directory home and single-responsibility decomposition; no unrelated concerns are merged into one file and no god/utility dumping ground is introduced.
 - [ ] No unrelated refactors or speculative features are included.
 - [ ] Unrelated bugs are listed for follow-up, not fixed in this task.
 
@@ -155,8 +156,10 @@ Checklist:
 - [ ] Unit/integration/e2e/static/security gates required by `PROJECT.md` ran or have approved skips.
 - [ ] Tests assert user-visible behavior or public contracts, not brittle implementation details.
 - [ ] Tests are deterministic: no real production network, no uncontrolled time, no order dependence.
+- [ ] Every new or changed unit of non-trivial logic has a unit test; line coverage meets the `PROJECT.md` threshold (default ≥ 80% on logic) or has an approved exception, supported by captured tool output.
+- [ ] Code is modular: each changed file has a single clear responsibility, layers (UI/logic/data) stay separated, and no god file or circular import is introduced.
 - [ ] Coverage thresholds or quality targets in the plan are supported by captured tool output.
-- [ ] No dead code, commented-out code, stray debug prints in production paths, or unowned TODOs.
+- [ ] No dead code, commented-out code, copy-paste duplication, placeholder names, stray debug prints in production paths, or unowned TODOs.
 - [ ] No language-specific lint/type suppression appears without inline justification.
 - [ ] Documentation and config examples promised in the plan are in the diff.
 - [ ] Scope did not expand into unrelated cleanup or speculative features.

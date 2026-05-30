@@ -102,6 +102,25 @@ Dependency autonomy is governed by `PROJECT.md → dependency_policy`:
 
 These patterns are distilled from OpenHands, SWE-agent, Playwright, and others — see [`docs/research/04-autonomous-dev-test-harness.md`](docs/research/04-autonomous-dev-test-harness.md).
 
+### Two browser paths
+
+| Path | Use for |
+|---|---|
+| [`app-testing`](.github/skills/app-testing/SKILL.md) — Python Playwright + `with_server.py` | **Default.** Deterministic, committed E2E smoke tests that back verification gates and run in CI. |
+| **Playwright MCP** — shipped in [`.mcp.json`](.mcp.json) | Exploratory / self-healing loops: persistent browser, live page introspection, selector discovery while debugging. |
+
+Explore with MCP, then **codify** the result as a deterministic `app-testing` script a gate can run unattended. See [`docs/mcp.md`](docs/mcp.md) for MCP servers, registration (Copilot CLI `/mcp`), and security notes.
+
+---
+
+## Quality bar
+
+The always-on rules every agent follows live in [`.github/copilot-instructions.md`](.github/copilot-instructions.md) and are enforced at the plan, review, and audit gates:
+
+- **Structured & modular** — code is organized by feature/domain, one responsibility per module, layers (UI / logic / data) kept separate, dependencies pointing inward, new features in their own directory behind a narrow public entry point.
+- **No slop** — no dead/commented-out code, no duplication, no placeholder names, no ownerless TODOs; the diff contains only what the task needs.
+- **Full unit-test coverage** — every unit of non-trivial logic has a test; a `coverage` gate enforces a threshold (default ≥ 80% on logic) with captured tool output, not vibes.
+
 ---
 
 ## Skill catalog
@@ -158,11 +177,13 @@ Three tiers — use the right one:
 ├─ PROJECT.md                    ← REQUIRED: your commands, packages, verification gates (YAML)
 ├─ ARCHITECTURE.md               ← system shape (starts as a stub)
 ├─ ARCHITECTURE.template.md      ← fuller template to grow ARCHITECTURE.md from
+├─ .mcp.json                     ← MCP servers (Playwright) for clients that auto-load it
 ├─ .github/
 │  ├─ copilot-instructions.md    ← always-on rules for every agent session
 │  ├─ agents/                    ← research, prd, dev, dev-impl, dev-review
 │  └─ skills/                    ← 13 skills (see catalog above)
 └─ docs/
+   ├─ mcp.md                     ← MCP server registration + security notes
    ├─ stack-profiles/            ← web-spa · expo-cross-platform · backend-service
    └─ research/                  ← the research that shaped this template
 ```

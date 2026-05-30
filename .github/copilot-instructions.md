@@ -46,10 +46,27 @@ If the profile and `PROJECT.md` disagree about commands or package paths, `PROJE
 - Any new user-facing feature should include the feature documentation required by the active stack profile or project conventions.
 - Documentation changes must be committed in the same change as the code they describe.
 
+### Project structure & modularity
+
+- Organize code by **feature or domain**, not by incidental file type. Keep a predictable, documented directory layout and record it in [`ARCHITECTURE.md`](../ARCHITECTURE.md) once the system is non-trivial.
+- **One module, one responsibility.** No god files, no grab-bag `utils`/`helpers` dumping grounds, no unrelated concerns sharing a file. Extract a unit when it grows a second responsibility or gets reused.
+- **Separate layers explicitly.** UI/presentation, business logic, and data access must not bleed into each other. Pure logic must be importable and testable without booting a server, UI, or network.
+- **Dependencies point inward.** Shared/lower-level modules must not import feature/higher-level ones. No circular imports.
+- New features land in their **own directory** with co-located tests, a short README, and a narrow public entry point (barrel/`index` or equivalent). Cross-feature access goes through that public surface only.
+- Keep functions and files small and focused; prefer composition over deep inheritance.
+
+### No slop
+
+- No dead code, commented-out code, unused exports, orphaned files, stray debug prints, or speculative abstractions "for later".
+- No ownerless `TODO`/`FIXME` — every deferral is a tracked follow-up with an owner.
+- No copy-paste duplication: factor shared logic. No placeholder names (`foo`, `temp`, `data2`) in committed code.
+- Delete what you replace. The diff contains only what the task needs.
+
 ### Testing
 
 - Verification gates come from `PROJECT.md` first, then task-specific gates added by the plan.
-- Unit tests cover changed pure logic, components, handlers, workers, adapters, and edge cases.
+- **Every unit of non-trivial logic has a unit test.** All business logic, pure functions, components, handlers, workers, reducers, and adapters are covered — including success, failure, edge, and boundary cases. Logic that ships without a test is a review blocker.
+- **Maintain high unit-test coverage on logic.** Meet the coverage threshold declared in `PROJECT.md` (default **≥ 80% lines** on logic / `lib` / shared components). Coverage is enforced as a gate, not asserted by vibes — new untested branches fail review.
 - Integration tests are required for changed persistence, service boundaries, public APIs, external adapters, or migrations.
 - UI changes at standard or complex scope require the E2E smoke behavior required by the active stack profile, usually via [`app-testing`](skills/app-testing/SKILL.md).
 - Tests must be deterministic: no real production network calls, no uncontrolled timers, and no hidden dependency on global machine state.

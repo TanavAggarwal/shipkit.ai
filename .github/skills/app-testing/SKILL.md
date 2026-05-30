@@ -98,6 +98,19 @@ with sync_playwright() as p:
 
 ---
 
+## Playwright MCP (optional, for exploration)
+
+The framework also ships a [Playwright MCP](../../../docs/mcp.md) server in [`.mcp.json`](../../../.mcp.json) for **agent-driven** browser control with persistent state and live page introspection.
+
+Use MCP and this skill for different jobs:
+
+- **This skill (Python + `with_server.py`)** is the default for **verification gates**: deterministic, committed, CI-runnable smoke tests that back `PROJECT.md`. Prefer it for anything a gate depends on — it is repeatable and token-efficient.
+- **Playwright MCP** is for **exploration and self-healing loops**: debugging a flaky UI, discovering selectors, or reasoning iteratively over page structure during development.
+
+Rule: explore with MCP, then **codify** the result as a deterministic script in this skill so a gate can run it unattended. Never leave a verification gate depending on an interactive MCP session. See [`docs/mcp.md`](../../../docs/mcp.md) for registration and security notes.
+
+---
+
 ## Reconnaissance-then-action pattern
 
 1. Navigate to the page and wait for the dynamic app to settle.

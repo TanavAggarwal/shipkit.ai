@@ -39,6 +39,8 @@ Every item is yes/no. Any **no** means `FAIL`.
 
 - [ ] No unowned `TODO`, `FIXME`, or `XXX` was introduced.
 - [ ] No commented-out code was introduced.
+- [ ] No copy-paste duplication, placeholder names, god files, or orphaned files were introduced; new logic lives in focused single-responsibility modules.
+- [ ] Every new unit of non-trivial logic has a corresponding test, and `state.last_verification` coverage/test output supports the "tested" claim.
 - [ ] No stray debug prints or ad-hoc diagnostics remain in production paths.
 - [ ] No language-specific lint/type/error suppression appears without inline justification.
 - [ ] No secrets, credentials, tokens, or local-only paths were committed.

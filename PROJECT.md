@@ -25,6 +25,10 @@ verification_gates:
     cwd: frontend
     command: "npm test -- --ci"
     pass: "exit 0"
+  - name: coverage
+    cwd: frontend
+    command: "npm test -- --coverage --ci"
+    pass: "lines >= 80%"        # full unit-test coverage on logic; raise as the project matures
   - name: e2e
     cwd: .
     command: "python .github/skills/app-testing/scripts/with_server.py --server \"npm run dev --prefix frontend\" --port 3000 -- python frontend/__tests__/e2e/smoke.py"
@@ -90,7 +94,7 @@ If your project uses different commands, update the YAML block rather than editi
 Add rules here that are specific to your project and not already covered by the active stack profile. Examples:
 
 - Required browser support or accessibility conformance target.
-- Coverage thresholds.
+- Coverage thresholds (the default `coverage` gate enforces ≥ 80% lines on logic; raise it per package as the project matures).
 - API latency budgets.
 - Data retention, privacy, or compliance constraints.
 - Release, migration, or rollback requirements.

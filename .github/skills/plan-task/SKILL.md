@@ -55,6 +55,7 @@ One paragraph: what changes and why.
 - Packages/modules: <paths from PROJECT.md>
 - Runtime surfaces: <frontend/backend/worker/CLI/library/etc.>
 - Shared contracts: <public API, data model, events, config, generated types>
+- Module/directory placement: <where new files live, how the code decomposes into focused single-responsibility modules, and the public entry point other code uses>
 
 ### 3. Data model / schema changes
 - Models/tables/documents/messages added or modified: <field-level detail>
@@ -87,6 +88,7 @@ List tests by category according to PROJECT.md verification gates and active pro
 #### 7.a Unit tests
 - Files + cases:
 - Determinism/mocking strategy:
+- Coverage: every new or changed unit of non-trivial logic gets a test (success, failure, edge, boundary). Meet the `PROJECT.md` coverage threshold (default ≥ 80% on logic).
 
 #### 7.b Integration tests
 - Boundary under test:
